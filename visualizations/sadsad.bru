@@ -1,0 +1,29 @@
+meta {
+  name: sadsad
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://api.supermetrics.com/enterprise/v2/query/data/json
+  body: none
+  auth: none
+}
+
+script:pre-request {
+  const { URL } = require('url');
+    
+  const reqUrl = new URL(req.url);
+  
+  const jsonQuery = {
+      "ds_id":"FA",
+      "ds_accounts":"list.all_accounts",
+      "ds_user":"10158800486796344",
+      "date_range_type":"yesterday",
+      "fields":"Date,adcampaign_name,impressions,cost,action_link_click",
+      "max_rows":1000
+  }
+  
+  reqUrl.searchParams.append("json", encodeURIComponent(JSON.stringify(jsonQuery)));
+  req.setUrl(reqUrl.href);
+}

@@ -1,0 +1,37 @@
+meta {
+  name: spacex
+  type: graphql
+  seq: 1
+}
+
+post {
+  url: https://spacex-production.up.railway.app/
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  {
+    company {
+      ceo
+    }
+  }
+  
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("should return json", function() {
+    const data = res.getBody();
+    expect(res.getBody()).to.eql({
+      "data": {
+        "company": {
+          "ceo": "Elon Musk"
+        }
+      }
+    });
+  });
+}

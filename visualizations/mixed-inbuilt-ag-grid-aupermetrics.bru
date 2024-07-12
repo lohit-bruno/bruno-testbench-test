@@ -1,0 +1,410 @@
+meta {
+  name: mixed-inbuilt-ag-grid-supermetrics
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://echo.zuplo.io
+  body: json
+  auth: none
+}
+
+headers {
+  foo: bar
+}
+
+auth:basic {
+  username: asd
+  password: j
+}
+
+auth:bearer {
+  token: 
+}
+
+body:json {
+  {
+    "notes": {
+      "runtime_sec": 5,
+      "result_rows": 4,
+      "query_count": 6    
+    },
+    "fields": [
+      {
+        "name": "Count",
+        "type": "number",
+        "data_type": "number"
+      },
+      {
+        "name": "Name",
+        "type": "string",
+        "data_type": "string"
+      },
+      {
+        "name": "Age",
+        "type": "number",
+        "data_type": "number"
+      },
+      {
+        "name": "Email",
+        "type": "email",
+        "data_type": "string"
+      },
+      {
+        "name": "Place",
+        "type": "string",
+        "data_type": "string"
+      }
+    ],
+    "data": [
+      {
+        "id": null,
+        "name": "Name",
+        "age": "Age",
+        "email": "Email",
+        "city": "City"
+      },
+      {
+        "id": 1,
+        "name": "John Doe",
+        "age": 30,
+        "email": "john@example.com",
+        "city": "New York"
+      },
+      {
+        "id": 2,
+        "name": "Jane Smith",
+        "age": 25,
+        "email": "jane@example.com",
+        "city": "Los Angeles"
+      },
+      {
+        "id": 3,
+        "name": "Bob Johnson",
+        "age": 35,
+        "email": "bob@example.com",
+        "city": "Chicago"
+      },
+      {
+        "id": 4,
+        "name": "Alice Williams",
+        "age": 28,
+        "email": "alice@example.com",
+        "city": "San Francisco"
+      }
+    ]
+  }
+  
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:pre-request {
+  const { URL } = require('url');
+  
+  const reqUrl = new URL(req.url);
+  
+  reqUrl.searchParams.delete('returnQueryIDafterSeconds');
+  reqUrl.searchParams.delete('separateFetchQuery');
+  reqUrl.searchParams.delete('pretty');
+  reqUrl.searchParams.delete('displayLog');
+  reqUrl.searchParams.delete('triggerID');
+  reqUrl.searchParams.delete('hashForQIDFDB');
+  reqUrl.searchParams.delete('queryType');
+  reqUrl.searchParams.delete('queryCount');
+  
+  reqUrl.searchParams.append("cacheBuster", new Date().toISOString());
+  
+  req.setUrl(reqUrl.href);
+  
+  req.setBody({
+    "notes": {
+      "runtime_sec": 5,
+      "result_rows": 4,
+      "query_count": 6    
+    },
+    "fields": [
+      {
+        "name": "Count",
+        "type": "number",
+        "data_type": "number"
+      },
+      {
+        "name": "Name",
+        "type": "string",
+        "data_type": "string"
+      },
+      {
+        "name": "Age",
+        "type": "number",
+        "data_type": "number"
+      },
+      {
+        "name": "Email",
+        "type": "email",
+        "data_type": "string"
+      },
+      {
+        "name": "Place",
+        "type": "string",
+        "data_type": "string"
+      }
+    ],
+    "data": [...Array.from({length: 1})?.map(i=>[
+      {
+        "id": 1,
+        "name": "John Doe",
+        "age": 30,
+        "email": "john@example.com",
+        "city": "New York"
+      },
+      {
+        "id": 2,
+        "name": "Jane Smith",
+        "age": 25,
+        "email": "jane@example.com",
+        "city": "Los Angeles"
+      },
+      {
+        "id": 3,
+        "name": "Bob Johnson",
+        "age": 35,
+        "email": "bob@example.com",
+        "city": "Chicago"
+      },
+      {
+        "id": 4,
+        "name": "Alice Williams",
+        "age": 28,
+        "email": "alice@example.com",
+        "city": "San Francisco"
+      }
+    ]).flat()]
+  });
+  
+}
+
+script:post-response {
+  let response = res.body?.body;
+  
+  let notes = response?.notes || {};
+  let responseRuntime = notes.runtime_sec || 0;
+  
+  notes.runtime = new Date(responseRuntime * 1000)
+    .toISOString()
+    .substr(11, 8)
+  ;
+  
+  if (typeof response?.data === 'undefined' && typeof response?.rows === 'object') {
+    response.data = response?.rows?.map(function(data) {
+        return data?.values;
+    });
+  }
+  
+  
+  const templateScript = `
+    <script id="template" type="text/x-handlebars-template">
+      {{#if response.data}}
+          <div>
+              <p>Total rows: {{notes.result_rows}}</p>
+              <p>Query count: {{notes.query_count}}</p>
+              <p>Duration: {{notes.runtime}}</p>
+              <div>
+                <button id="copy_button" style="margin: 10px 0px">Copy Table</button>
+                <span id="copy_toast"></span>
+              </div>
+          </div>
+          <table id="data_table">
+              {{#each response.data}}
+                  {{#if @first}}
+                      <tr>
+                          {{#each this}}
+                              <th>
+                                  {{#with (lookup ../../response.fields @index)~}}
+                                      <small>
+                                          {{name}} ({{type}})<br>
+                                          {{data_type}}<br>
+                                      </small>
+                                  {{/with}}
+                                  {{this}}
+                              </th>
+                          {{/each}}
+                      </tr>
+                  {{else}}
+                      <tr id="row_{{@key}}" class="data_row">
+                          {{#each this}}
+                              <td>{{this}}</td>
+                          {{/each}}
+                      </tr>
+                  {{/if}}
+              {{/each}}
+          </table>
+      {{else if response.results}}
+          <table id="data_table">
+              <tr>
+                  {{#each response.results.[0]}}
+                      <th>{{@key}}</th>
+                  {{/each}}
+              </tr>
+              {{#each response.results}}
+                  <tr id="row_{{@key}}" class="data_row">
+                      {{#each this}}
+                          <td>{{this}}</td>
+                      {{/each}}
+                  </tr>
+              {{/each}}
+          </table>
+      {{else}}
+          <div class="error">
+              <h1>Error</h1>
+              {{#if response.notes}}
+                  {{response.notes.error}}
+              {{else}}
+                  No response
+              {{/if}}
+          </div>
+      {{/if}}
+    </script>
+  `
+  
+  const mainScript = `
+    <script>    
+      document.addEventListener("DOMContentLoaded", function() {
+        let data = ${JSON.stringify({
+          response,
+          notes
+        })}
+        let source = document.getElementById("template").innerHTML;
+        let template = Handlebars.compile(source);
+        document.body.innerHTML = template(data);
+        document.getElementById('data_table').addEventListener('click', function(e) {
+          var row = e.target.closest('tr.data_row');
+          if (row) {
+              row.classList.toggle('marked');
+          }
+        });
+        document.getElementById("copy_button").addEventListener("click", function() {
+          var table = document.getElementById("data_table");
+          var range = document.createRange();
+          range.selectNode(table);
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(range);
+          document.execCommand("copy");
+          window.getSelection().removeAllRanges();
+          document.getElementById('copy_toast').innerText = 'copied!';
+          setTimeout(()=>{
+            document.getElementById('copy_toast').innerText = '';
+          }, 1000)
+        });
+      });
+    </script>
+  `
+  
+  const style = `
+    <style type="text/css">
+        div {
+            margin-bottom: 8px;
+        }
+        div p {
+            font-family: courier;
+            font-size: 12px;
+            line-height: 1.2;
+            color: #afafaf;
+            margin: 0;
+        }
+        div.error {
+            padding: 20px;
+            background-color: #ffcece;
+            color: #792626;
+            font-size: 18px;
+        }
+        div.error h1 {
+            color: #dd4545;
+            line-height: 50px;
+            font-size: 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        table {
+            background-color: #454545;
+            color: #dedede;
+            font-size: 12px;
+            width: 100%;
+            border: 1px solid #cdcdcd;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid #797979;
+        }
+        table th {
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #565656;
+            text-align: left;
+            vertical-align: bottom;
+        }
+        table th, table th:first-child, table th:last-child {
+            padding: 4px;
+        }
+        table th small {
+            font-size: 10px;
+            color: #afafaf;
+        }
+        table tr:hover {
+            background-color:#505050;
+        }
+        table tr.marked:nth-child(even) {
+            background-color: #707070;
+        }
+        table tr.marked:nth-child(odd) {
+            background-color: #696969;
+        }
+        table td {
+            padding: 2px;
+        }
+        table td, table td:first-child, table td:last-child {
+            padding: 3px;
+        }
+        #copy_button {
+          cursor: pointer;
+        }
+        #copy_toast {
+          font-family: courier;
+          font-size: 12px;
+          line-height: 1.2;
+          color: #afafaf;
+          margin: 0;
+        }
+    </style>
+  `
+  
+  const htmlString = `
+    <html>
+      <head>
+        ${style}
+      </head>
+      <body>
+        <script src="https://rawgit.com/components/handlebars.js/master/handlebars.js"></script>
+        ${templateScript}
+        ${mainScript}
+      </body>
+    </html>
+  `
+  
+  const rowData = response.data;
+          
+  const columnDefinitions = [
+      { field: "name", filter: true, floatingFilter: true },
+      { field: "age", filter: true, floatingFilter: true },
+      { field: "email", filter: true, floatingFilter: true },
+      { field: "city", filter: true, floatingFilter: true }
+  ];
+  
+  bru?.visualize && bru.visualize('table', {name: 'table1', provider: 'ag-grid', props: { rowData, columnDefinitions } });
+  bru?.visualize && bru.visualize('table', {name: 'table2', provider: 'ag-grid', props: { rowData, columnDefinitions } });
+  
+  bru?.visualize && bru.visualize('html', {name: 'html string', content: htmlString});
+}

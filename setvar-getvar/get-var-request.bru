@@ -1,0 +1,18 @@
+meta {
+  name: get-var-request
+  type: http
+  seq: 2
+}
+
+get {
+  url: www.example.com
+  body: none
+  auth: none
+}
+
+tests {
+  test("should have the correct 'foo-var' collection variable value that was set in previous request", function() {
+    const v = bru.getVar('foo-var')
+    expect(v).to.eql('bar');
+  });  
+}

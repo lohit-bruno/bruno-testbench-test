@@ -1,0 +1,27 @@
+meta {
+  name: echo xml raw
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{host}}/api/echo/xml-raw
+  body: xml
+  auth: none
+}
+
+body:xml {
+  <hello>
+    <world>bruno</world>
+  </hello>
+}
+
+tests {
+  test("should return parsed xml", function() {
+    const data = res.getBody();
+    expect(data).to.eql(`<hello>
+    <world>bruno</world>
+  </hello>`);
+  });
+  
+}

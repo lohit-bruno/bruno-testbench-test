@@ -1,0 +1,98 @@
+meta {
+  name: table - ag-grid
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://echo.zuplo.io
+  body: json
+  auth: none
+}
+
+headers {
+  foo: bar
+}
+
+auth:basic {
+  username: asd
+  password: j
+}
+
+auth:bearer {
+  token: 
+}
+
+body:json {
+  {}
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:pre-request {
+  req.setBody({
+    "data": [...Array.from({length: 100})?.map(i=>[
+      {
+        "id": 1,
+        "name": "John Doe",
+        "age": 30,
+        "email": "john@example.com",
+        "city": "New York"
+      },
+      {
+        "id": 2,
+        "name": "Jane Smith",
+        "age": 25,
+        "email": "jane@example.com",
+        "city": "Los Angeles"
+      },
+      {
+        "id": 3,
+        "name": "Bob Johnson",
+        "age": 35,
+        "email": "bob@example.com",
+        "city": "Chicago"
+      },
+      {
+        "id": 4,
+        "name": "Alice Williams",
+        "age": 28,
+        "email": "alice@example.com",
+        "city": "San Francisco"
+      }
+    ]).flat()]
+  });
+  
+}
+
+script:post-response {
+  let response = res.body?.body;
+  const rowData = response.data;
+          
+  const columnDefinitions = [
+      { field: "name", filter: true, floatingFilter: true },
+      { field: "age", filter: true, floatingFilter: true },
+      { field: "email", filter: true, floatingFilter: true },
+      { field: "city", filter: true, floatingFilter: true }
+  ];
+  
+  bru?.visualize && bru.visualize('table', {
+    name: 'My Table',
+    provider: 'ag-grid',
+    props: {
+      rowData,
+      columnDefinitions
+    }
+  });
+  
+  bru?.visualize && bru.visualize('table', {
+    name: 'My Table 2',
+    provider: 'ag-grid',
+    props: {
+      rowData,
+      columnDefinitions
+    }
+  });
+}

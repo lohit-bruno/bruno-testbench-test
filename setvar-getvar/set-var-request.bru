@@ -1,0 +1,15 @@
+meta {
+  name: set-var-request
+  type: http
+  seq: 1
+}
+
+get {
+  url: www.example.com
+  body: none
+  auth: none
+}
+
+script:pre-request {
+  bru.setVar('foo-var', 'bar');
+}

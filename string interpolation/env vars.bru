@@ -1,0 +1,64 @@
+meta {
+  name: env vars
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/api/echo/json?query-foo={{env-var-query-foo}}
+  body: json
+  auth: none
+}
+
+query {
+  query-foo: {{env-var-query-foo}}
+}
+
+headers {
+  header-foo: {{env-var-header-foo}}
+}
+
+body:json {
+  {
+    "envVar1": "{{env.var1}}",
+    "envVar2": "{{env-var2}}",
+    "body-foo": "{{env-var-body-foo}}"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:pre-request {
+  bru.setEnvVar("env-var-header-foo", "header-foobar");
+  bru.setEnvVar("env-var-query-foo", "query-foobar");
+  bru.setEnvVar("env-var-body-foo", "body-foobar");
+}
+
+script:post-response {
+  bru.setEnvVar("env-var-header-foo", null);
+  bru.setEnvVar("env-var-query-foo", null);
+  bru.setEnvVar("env-var-body-foo", null);
+}
+
+tests {
+  test("should return json", function() {
+    expect(res.getBody()).to.eql({
+      "envVar1": "envVar1",
+      "envVar2": "envVar2",
+      "body-foo": "body-foobar"
+    });
+  });
+  
+  test("should return header", function() {
+    const expectedValue = `header-foobar`;
+    expect(req.getHeader('header-foo')).to.equal(expectedValue);
+  });
+  
+  test("should return query", function() {
+    const expectedValue = `query-foobar`;
+    expect(req.getUrl()).to.include(expectedValue);
+  });
+  
+}

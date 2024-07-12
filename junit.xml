@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<testsuites>
+  <testsuite name="_cleanup/clear vars" errors="1" failures="0" skipped="0" tests="1" timestamp="2024-06-04T12:34:06.383" hostname="lohits-MacBook-Air.local" time="0.010">
+    <testcase name="Test suite has no errors" status="fail" classname="http://" time="0.010">
+      <error type="error" message="Invalid URL"/>
+    </testcase>
+  </testsuite>
+  <testsuite name="auth/basic/via auth/Basic Auth 200" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.384" hostname="lohits-MacBook-Air.local" time="0.231">
+    <testcase name="res.status 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/basic/protected" time="0.115"/>
+    <testcase name="res.body.message Authentication successful" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/basic/protected" time="0.115"/>
+  </testsuite>
+  <testsuite name="auth/basic/via auth/Basic Auth 401" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.384" hostname="lohits-MacBook-Air.local" time="0.070">
+    <testcase name="res.status 401" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/basic/protected" time="0.035"/>
+    <testcase name="res.body Unauthorized" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/basic/protected" time="0.035"/>
+  </testsuite>
+  <testsuite name="auth/basic/via script/Basic Auth 200" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.384" hostname="lohits-MacBook-Air.local" time="0.071">
+    <testcase name="res.status eq 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/basic/protected" time="0.036"/>
+    <testcase name="res.body.message Authentication successful" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/basic/protected" time="0.036"/>
+  </testsuite>
+  <testsuite name="auth/basic/via script/Basic Auth 401" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.384" hostname="lohits-MacBook-Air.local" time="0.077">
+    <testcase name="res.status 401" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/basic/protected" time="0.038"/>
+    <testcase name="res.body Unauthorized" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/basic/protected" time="0.038"/>
+  </testsuite>
+  <testsuite name="auth/bearer/via auth/Bearer Auth 200" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.384" hostname="lohits-MacBook-Air.local" time="0.129">
+    <testcase name="res.status 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/bearer/protected" time="0.064"/>
+    <testcase name="res.body.message Authentication successful" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/bearer/protected" time="0.064"/>
+  </testsuite>
+  <testsuite name="auth/bearer/via headers/Bearer Auth 200" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.384" hostname="lohits-MacBook-Air.local" time="0.135">
+    <testcase name="res.status 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/bearer/protected" time="0.068"/>
+    <testcase name="res.body.message Authentication successful" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/bearer/protected" time="0.068"/>
+  </testsuite>
+  <testsuite name="auth/cookie/Login" errors="0" failures="0" skipped="0" tests="0" timestamp="2024-06-04T12:34:06.384" hostname="lohits-MacBook-Air.local" time="0.072"/>
+  <testsuite name="auth/cookie/Check" errors="0" failures="0" skipped="0" tests="0" timestamp="2024-06-04T12:34:06.384" hostname="lohits-MacBook-Air.local" time="0.123"/>
+  <testsuite name="auth/inherit auth/inherit Bearer Auth 200" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.384" hostname="lohits-MacBook-Air.local" time="0.147">
+    <testcase name="res.status 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/bearer/protected" time="0.073"/>
+    <testcase name="res.body.message Authentication successful" status="pass" classname="https://testbench-sanity.usebruno.com/api/auth/bearer/protected" time="0.073"/>
+  </testsuite>
+  <testsuite name="echo/echo json visualize/echo json visualize" errors="0" failures="0" skipped="0" tests="3" timestamp="2024-06-04T12:34:06.384" hostname="lohits-MacBook-Air.local" time="0.097">
+    <testcase name="res.status eq 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json" time="0.032"/>
+    <testcase name="should return json" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json" time="0.032"/>
+    <testcase name="should return html string" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json" time="0.032"/>
+  </testsuite>
+  <testsuite name="echo/echo bom json" errors="0" failures="0" skipped="0" tests="0" timestamp="2024-06-04T12:34:06.384" hostname="lohits-MacBook-Air.local" time="0.121"/>
+  <testsuite name="echo/echo json" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.384" hostname="lohits-MacBook-Air.local" time="0.071">
+    <testcase name="res.status eq 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json" time="0.036"/>
+    <testcase name="should return json" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json" time="0.036"/>
+  </testsuite>
+  <testsuite name="echo/echo plaintext" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.082">
+    <testcase name="res.status eq 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/text" time="0.041"/>
+    <testcase name="should return plain text" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/text" time="0.041"/>
+  </testsuite>
+  <testsuite name="echo/echo xml parsed" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.076">
+    <testcase name="res.status eq 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/xml-parsed" time="0.038"/>
+    <testcase name="should return parsed xml" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/xml-parsed" time="0.038"/>
+  </testsuite>
+  <testsuite name="echo/echo xml raw" errors="0" failures="0" skipped="0" tests="1" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.091">
+    <testcase name="should return parsed xml" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/xml-raw" time="0.091"/>
+  </testsuite>
+  <testsuite name="graphql/spacex" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="1.211">
+    <testcase name="res.status eq 200" status="pass" classname="https://spacex-production.up.railway.app/" time="0.606"/>
+    <testcase name="should return json" status="pass" classname="https://spacex-production.up.railway.app/" time="0.606"/>
+  </testsuite>
+  <testsuite name="preview/html/bruno" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.239">
+    <testcase name="res.status eq 200" status="pass" classname="https://www.usebruno.com" time="0.119"/>
+    <testcase name="should return parsed xml" status="pass" classname="https://www.usebruno.com" time="0.119"/>
+  </testsuite>
+  <testsuite name="preview/image/bruno" errors="0" failures="0" skipped="0" tests="1" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.298">
+    <testcase name="should return parsed xml" status="pass" classname="https://www.usebruno.com/images/landing-2.png" time="0.298"/>
+  </testsuite>
+  <testsuite name="redirects/Disable Redirect" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.132">
+    <testcase name="res.status 302" status="pass" classname="https://testbench-sanity.usebruno.com/redirect-to-ping" time="0.066"/>
+    <testcase name="should disable redirect to ping" status="pass" classname="https://testbench-sanity.usebruno.com/redirect-to-ping" time="0.066"/>
+  </testsuite>
+  <testsuite name="redirects/Test Redirect" errors="0" failures="0" skipped="0" tests="3" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.351">
+    <testcase name="res.status 200" status="pass" classname="https://testbench-sanity.usebruno.com/redirect-to-ping" time="0.117"/>
+    <testcase name="res.body pong" status="pass" classname="https://testbench-sanity.usebruno.com/redirect-to-ping" time="0.117"/>
+    <testcase name="should redirect to ping" status="pass" classname="https://testbench-sanity.usebruno.com/redirect-to-ping" time="0.117"/>
+  </testsuite>
+  <testsuite name="scripting/local modules/sum" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.087">
+    <testcase name="res.status eq 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json" time="0.043"/>
+    <testcase name="should return json" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json" time="0.043"/>
+  </testsuite>
+  <testsuite name="scripting/npm modules/fakerjs" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="1.065">
+    <testcase name="res.status eq 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json" time="0.533"/>
+    <testcase name="should return json" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json" time="0.533"/>
+  </testsuite>
+  <testsuite name="scripting/get-env-name" errors="0" failures="0" skipped="0" tests="1" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.119">
+    <testcase name="should get env name in scripts" status="pass" classname="https://testbench-sanity.usebruno.com/ping" time="0.119"/>
+  </testsuite>
+  <testsuite name="scripting/get-env-var" errors="0" failures="0" skipped="0" tests="1" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.106">
+    <testcase name="should get env var in scripts" status="pass" classname="https://testbench-sanity.usebruno.com/ping" time="0.106"/>
+  </testsuite>
+  <testsuite name="scripting/set-env-var" errors="0" failures="0" skipped="0" tests="1" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.156">
+    <testcase name="should set env var in scripts" status="pass" classname="https://testbench-sanity.usebruno.com/ping" time="0.156"/>
+  </testsuite>
+  <testsuite name="string interpolation/missing values" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.078">
+    <testcase name="res.status eq 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json?foo={{undefinedVar}}" time="0.039"/>
+    <testcase name="should return json" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json?foo={{undefinedVar}}" time="0.039"/>
+  </testsuite>
+  <testsuite name="string interpolation/env vars" errors="0" failures="0" skipped="0" tests="4" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.091">
+    <testcase name="res.status eq 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json?query-foo=query-foobar" time="0.023"/>
+    <testcase name="should return json" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json?query-foo=query-foobar" time="0.023"/>
+    <testcase name="should return header" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json?query-foo=query-foobar" time="0.023"/>
+    <testcase name="should return query" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json?query-foo=query-foobar" time="0.023"/>
+  </testsuite>
+  <testsuite name="string interpolation/runtime vars" errors="0" failures="0" skipped="0" tests="4" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.070">
+    <testcase name="res.status eq 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/text?query-foo=query-foobar" time="0.017"/>
+    <testcase name="should return json" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/text?query-foo=query-foobar" time="0.017"/>
+    <testcase name="should return header" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/text?query-foo=query-foobar" time="0.017"/>
+    <testcase name="should return query" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/text?query-foo=query-foobar" time="0.017"/>
+  </testsuite>
+  <testsuite name="string interpolation/process env vars" errors="0" failures="0" skipped="0" tests="2" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.062">
+    <testcase name="res.status eq 200" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json" time="0.031"/>
+    <testcase name="should return json" status="pass" classname="https://testbench-sanity.usebruno.com/api/echo/json" time="0.031"/>
+  </testsuite>
+  <testsuite name="ping" errors="0" failures="0" skipped="0" tests="3" timestamp="2024-06-04T12:34:06.385" hostname="lohits-MacBook-Air.local" time="0.141">
+    <testcase name="res.status eq 200" status="pass" classname="https://testbench-sanity.usebruno.com/ping?x={{$secrets.foo.db_client_id}}" time="0.047"/>
+    <testcase name="res.responseTime lte 2000" status="pass" classname="https://testbench-sanity.usebruno.com/ping?x={{$secrets.foo.db_client_id}}" time="0.047"/>
+    <testcase name="should ping pong" status="pass" classname="https://testbench-sanity.usebruno.com/ping?x={{$secrets.foo.db_client_id}}" time="0.047"/>
+  </testsuite>
+</testsuites>
